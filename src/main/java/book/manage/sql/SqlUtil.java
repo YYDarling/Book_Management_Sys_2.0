@@ -1,11 +1,13 @@
 package book.manage.sql;
 
+import book.manage.Mapper.BookMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 /**
  * @title: SqlUtil
@@ -30,8 +32,15 @@ public class SqlUtil {
     }
 
     // 通过 SqlUtil.getFactory() 获取 SqlSessionFactory
-    public SqlSession getSession(){
-        return factory.openSession(true);
+//    public SqlSession getSession(){
+//        return factory.openSession(true);
+//    }
+
+    public static void doSqlWork(Consumer<BookMapper> consumer){
+        try (SqlSession sqlSession = factory.openSession(true)){
+            BookMapper b_Mapper = sqlSession.getMapper(BookMapper.class);
+            consumer.accept(b_Mapper);
+        }
     }
 
 }

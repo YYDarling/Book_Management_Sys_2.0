@@ -3,6 +3,7 @@ package book.manage.Mapper;
 import book.manage.Entities.Book;
 import book.manage.Entities.Student;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 
 public interface BookMapper {
 
@@ -19,5 +20,9 @@ public interface BookMapper {
     //https://dev.mysql.com/doc/refman/8.0/en/keywords.html
     @Insert("insert into book(title, `desc`, price) values(#{title}, #{desc}, #{price})")
     int addBook(Book book);
+
+    //3. 在BookMapper接口中定义一个方法，用于添加借阅信息
+    @Insert("insert into borrow(sid, bid) values(#{sid}, #{bid})")
+    int addBorrow(@Param("sid") int sid, @Param("bid") int bid);
 
 }
