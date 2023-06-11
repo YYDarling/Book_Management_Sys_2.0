@@ -1,6 +1,7 @@
 package book.manage.Entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @title: Student
@@ -10,9 +11,16 @@ import lombok.Data;
  */
 
 @Data
+@NoArgsConstructor
 public class Student {
     int sid;
-    final String name;
-    final String sex;
-    final int grade;
+    String name;
+    String sex;
+    int grade;
+
+    public Student(String name, String sex, int grade) {
+        this.name = name;
+        this.sex = sex;
+        this.grade = grade;
+    }
 }

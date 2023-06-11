@@ -18,7 +18,7 @@ import java.util.logging.LogManager;
  */
 @Log
 public class Main {
-    public static <e> void main(String[] args){
+    public static <e> void main(String[] args) {
 //        SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsReader("mybatis-config.xml"));
 //        try (SqlSession sqlSession = factory.openSession(true)){
 //            BookMapper b_Mapper = sqlSession.getMapper(BookMapper.class);
@@ -44,13 +44,16 @@ public class Main {
                 System.out.println("1. Enter student information");
                 System.out.println("2. Enter book information");
                 System.out.println("3. Adding book borrowing records");
+                System.out.println("4. View book borrowing records");
+                System.out.println("5. View student information");
+                System.out.println("6. View book information");
                 System.out.print("Please enter the operation you wish to perform (Enter any other number to exit): ");
                 int input;
 
                 //定位更加精准
-                try{
+                try {
                     input = scanner.nextInt();
-                }catch (Exception e){
+                } catch (Exception e) {
                     return;
                 }
                 scanner.nextLine();
@@ -70,19 +73,29 @@ public class Main {
                     case 3:
                         addBorrow(scanner);
                         break;
+                    case 4:
+                        showBorrow();
+                        break;
+                    case 5:
+                        showStudent();
+                        break;
+                    case 6:
+                        showBook();
+                        break;
                     default:
                         return;
                 }
 
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     /*
         case 1 ; add student information
          */
-    private static void addStudent(Scanner scanner){
+    private static void addStudent(Scanner scanner) {
         System.out.print("Please enter the student's name: ");
         String name = scanner.nextLine();
         System.out.print("Please enter the student's sex(male/female): ");
@@ -98,15 +111,14 @@ public class Main {
             if (i > 0) {
                 System.out.println("Add student information successfully!");
                 log.info("add a new student information" + student);
-            }
-            else System.out.println("Add student information failed! Please try again!");
+            } else System.out.println("Add student information failed! Please try again!");
         });
     }
 
     /*
     case 2 ; add book information
      */
-    private static void addBook(Scanner scanner){
+    private static void addBook(Scanner scanner) {
         System.out.print("Please enter the book's title: ");
         String title = scanner.nextLine();
         System.out.print("Please enter the book's description: ");
@@ -122,15 +134,14 @@ public class Main {
             if (i > 0) {
                 System.out.println("Add book information successfully!");
                 log.info("add a new book information" + book);
-            }
-            else System.out.println("Add book information failed! Please try again!");
+            } else System.out.println("Add book information failed! Please try again!");
         });
     }
 
     /*
     case 3 ; add book borrowing records
      */
-    private static void addBorrow(Scanner scanner){
+    private static void addBorrow(Scanner scanner) {
         System.out.print("Please enter the book's id: ");
         String b = scanner.nextLine();
         int bid = Integer.parseInt(b); //将字符串强制转换为整数
@@ -144,9 +155,41 @@ public class Main {
             if (i > 0) {
                 System.out.println("Add borrowing records successfully!");
                 log.info("add a new borrowing records" + bid + "borrow" + sid);
-            }
-            else System.out.println("Add borrowing records failed! Please try again!");
+            } else System.out.println("Add borrowing records failed! Please try again!");
         });
         //test测试
+    }
+
+    /*
+    case 4: show borrowing records
+     */
+    private static void showBorrow() {
+        //调用数据库操作
+        SqlUtil.doSqlWork(b_Mapper -> {
+            b_Mapper.getBorrowList().forEach(borrow ->
+                    System.out.println(borrow.getStudent().getName() + "-->" + borrow.getBook().getTitle()));
+        });
+    }
+
+    /*
+    case 5: show student information
+     */
+    private static void showStudent() {
+        //调用数据库操作
+        SqlUtil.doSqlWork(b_Mapper -> {
+            b_Mapper.getStudentList().forEach(student ->
+                    System.out.println(student.getSid() + ". " + student.getName() + "[" + student.getSex() + "]" + "(" + student.getGrade() + ")"));
+        });
+    }
+
+    /*
+    case 6: show book information
+     */
+    private static void showBook() {
+        //调用数据库操作
+        SqlUtil.doSqlWork(b_Mapper -> {
+            b_Mapper.getBookList().forEach(book ->
+                    System.out.println(book.getBid() + ". " + book.getTitle() + "[$ " + book.getPrice() + "]" + "(" + book.getDesc() + ")"));
+        });
     }
 }

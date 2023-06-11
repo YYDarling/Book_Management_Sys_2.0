@@ -1,6 +1,7 @@
 package book.manage.Entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @title: Book
@@ -9,10 +10,16 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
+@NoArgsConstructor
 public class Book {
     int bid;
-    final String title;;
-    final String desc;
-    final double price;
+    String title;;
+    String desc;
+    double price;
 
+    public Book(String title, String desc, double price) {
+        this.title = title;
+        this.desc = desc;
+        this.price = price;
+    }
 }

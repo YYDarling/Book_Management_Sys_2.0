@@ -4,3 +4,5 @@ Jun 07, 2023 4:12:08 PM book.manage.Main lambda$addBook$1
 INFO: add a new book informationBook(bid=0, title=yyyu, desc=sanbi, price=89.21)
 Jun 07, 2023 4:46:42 PM book.manage.Main lambda$addBorrow$2
 INFO: add a new borrowing records3borrow3
+Jun 11, 2023 2:51:47 PM book.manage.Main lambda$addBorrow$2
+INFO: add a new borrowing records3borrow5
