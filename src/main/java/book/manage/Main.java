@@ -147,5 +147,6 @@ public class Main {
             }
             else System.out.println("Add borrowing records failed! Please try again!");
         });
+        //test测试
     }
 }
